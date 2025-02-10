@@ -40,19 +40,30 @@ public class Calculator {
         return numbers.pop();
     }
 
-    public static void main(String[] args) {
-        Scanner scn = new Scanner(System.in);
-        Calculator calc = new Calculator();
-
-        System.out.print("Enter an expression (e.g., 10 + 5 * 2): ");
-        String expression = scn.nextLine();
-
-        double result = calc.calculate(expression);
-        if (!Double.isNaN(result)) {
-            System.out.println("Result: " + result);
-        }
-
-        scn.close();
+    private boolean isOperator(char op) {
+        return op == '+' || op == '-' || op == '*' || op == '/' || op == '%' || op == '^';
     }
+
+    private int precedence(char op) {
+        return switch (op) {
+            case '+', '-' -> 1;
+            case '*', '/', '%' -> 2;
+            case '^' -> 3; // Exponentiation has the highest precedence
+            default -> -1;
+        };
+    }
+
+    private double applyOperation(char op, double b, double a) {
+        return switch (op) {
+            case '+' -> a + b;
+            case '-' -> a - b;
+            case '*' -> a * b;
+            case '/' -> b == 0 ? Double.NaN : a / b;
+            case '%' -> b == 0 ? Double.NaN : a % b;
+            case '^' -> Math.pow(a, b);
+            default -> Double.NaN;
+        };
+    }
+
 }
 
