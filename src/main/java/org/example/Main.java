@@ -8,14 +8,20 @@ public class Main {
         Scanner scn = new Scanner(System.in);
         Calculator calc = new Calculator();
 
-        System.out.print("Enter an expression (e.g., 10 + 5 * 2): ");
-        String expression = scn.nextLine();
+        while(true) {
+            System.out.print("Enter an expression (e.g., 10 + 5 * 2): ");
+            String expression = scn.nextLine();
 
-        double result = calc.calculate(expression);
-        if (!Double.isNaN(result)) {
-            System.out.println("Result: " + result);
+            if (expression.equalsIgnoreCase("exit")) {
+                System.out.println("Exiting calculator. Goodbye!");
+                break;
+            }
+
+            double result = calc.calculate(expression);
+            if (!Double.isNaN(result)) {
+                System.out.println("Result: " + result);
+            }
         }
-
         scn.close();
     }
 

@@ -22,6 +22,18 @@ public class Calculator {
         for (String token : tokens) {
             if (token.matches("-?\\d+(\\.\\d+)?")) { // Check if it's a number
                 numbers.push(Double.parseDouble(token));
+            } else if (token.equals("(")) {
+                operators.push('(');
+            } else if (token.equals(")")) {
+                while (!operators.isEmpty() && operators.peek() != '(') {
+                    numbers.push(applyOperation(operators.pop(), numbers.pop(), numbers.pop()));
+                }
+                if (!operators.isEmpty() && operators.peek() == '(') {
+                    operators.pop(); // Pop the opening parenthesis
+                } else {
+                    System.out.println("Mismatched parentheses!");
+                    return Double.NaN;
+                }
             } else if (isOperator(token.charAt(0))) { // Check if it's an operator
                 while (!operators.isEmpty() && precedence(operators.peek()) >= precedence(token.charAt(0))) {
                     numbers.push(applyOperation(operators.pop(), numbers.pop(), numbers.pop()));
@@ -64,6 +76,6 @@ public class Calculator {
             default -> Double.NaN;
         };
     }
-
 }
+
 
